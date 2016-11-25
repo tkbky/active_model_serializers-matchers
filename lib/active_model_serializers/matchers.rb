@@ -4,4 +4,6 @@ require 'active_model_serializers/matchers/have_attribute_matcher'
 require 'active_model_serializers/matchers/association_matcher'
 require 'active_support/concern'
 
-module ActiveModelSerializers::Matchers; end
+module ActiveModelSerializers
+  module Matchers; end
+end
