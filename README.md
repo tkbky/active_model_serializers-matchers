@@ -1,15 +1,17 @@
 # ActiveModelSerializers::Matchers
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/active_model_serializers/matchers`. To experiment with that code, run `bin/console` for an interactive prompt.
+One-liners RSpec matchers for ActiveModelSerializers.
 
-TODO: Delete this and the text above, and describe your gem
+## Requirements
+
+Only ActiveModelSerializers **0.10.0** is supported
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'active_model_serializers-matchers'
+gem 'active_model_serializers-matchers', group: :test
 ```
 
 And then execute:
@@ -22,7 +24,57 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+# app/serializers/user_serializer.rb
+
+class UserSerializer < ActiveModel::Serializer
+  attribute :email
+  has_many :orders, serializer: OrderSerializer
+  have_one :profile, serializer: ProfileSerializer
+end
+```
+
+```ruby
+class ProfileSerializer < ActiveModel::Serializer
+  belongs_to :user, serializer: UserSerializer
+end
+```
+
+```ruby
+# app/serializers/order_serializer.rb
+
+class OrderSerializer < ActiveModel::Serializer
+  attributes :amount
+  belongs_to :user, serializer: UserSerializer
+end
+```
+
+```ruby
+# spec/serializers/user_serializer.rb
+
+RSpec.describe UserSerializer do
+  it { is_expected.to have_attribute(:email) }
+  it { is_expected.to have_many(:orders).serializer(OrderSerializer) }
+  it { is_expected.to have_one(:profile).serializer(ProfileSerializer) }
+end
+```
+
+```ruby
+# spec/serializers/profile_serializer.rb
+
+RSpec.describe ProfileSerializer do
+  it { is_expected.to belong_to(:user).serializer(UserSerializer) }
+end
+```
+
+```ruby
+# spec/serializers/order_serializer.rb
+
+RSpec.describe OrderSerializer do
+  it { is_expected.to have_attribute(:amount) }
+  it { is_expected.to belong_to(:user).serializer(UserSerializer) }
+end
+```
 
 ## Development
 
@@ -38,4 +90,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
