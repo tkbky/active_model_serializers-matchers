@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'active_model_serializers-matchers'
   spec.version       = ActiveModelSerializers::Matchers::VERSION
   spec.authors       = ['tkbky']
-  spec.email         = ['kheryee.ting@tinkerbox.com.sg']
+  spec.email         = ['infcurious@gmail.com']
 
   spec.summary       = 'RSpec matchers for ActiveModelSerializers.'
   spec.description   = 'RSpec matchers for ActiveModelSerializers.'
